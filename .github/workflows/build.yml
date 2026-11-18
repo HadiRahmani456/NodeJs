@@ -1,4 +1,4 @@
-name: Build pbiviz offline bundle
+name: Build pbiviz project dependencies bundle
 
 on:
   workflow_dispatch:
@@ -17,18 +17,23 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Create offline bundle
+      - name: Install pbiviz
+        run: npm install -g powerbi-visuals-tools
+
+      - name: Create sample project
         run: |
-          mkdir -p bundle
-          cd bundle
-          npm init -y
-          npm install powerbi-visuals-tools
-          cd ..
-          tar -czf pbiviz-offline-bundle.tar.gz -C bundle .
+          pbiviz new SampleProject
+          cd SampleProject
+          npm install
+
+      - name: Bundle project dependencies
+        run: |
+          cd SampleProject
+          tar -czf ../project-deps-bundle.tar.gz -C . node_modules package.json package-lock.json
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: pbiviz-offline-bundle
-          path: pbiviz-offline-bundle.tar.gz
+          name: project-deps-bundle
+          path: project-deps-bundle.tar.gz
           retention-days: 7
