@@ -1,0 +1,34 @@
+name: Build pbiviz offline bundle
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Create offline bundle
+        run: |
+          mkdir -p bundle
+          cd bundle
+          npm init -y
+          npm install powerbi-visuals-tools
+          cd ..
+          tar -czf pbiviz-offline-bundle.tar.gz -C bundle .
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pbiviz-offline-bundle
+          path: pbiviz-offline-bundle.tar.gz
+          retention-days: 7
