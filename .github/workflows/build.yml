@@ -22,7 +22,7 @@ jobs:
 
       - name: Create sample project
         run: |
-          pbiviz new SampleProject
+          pbiviz new SampleProject -y
           cd SampleProject
           npm install
 
