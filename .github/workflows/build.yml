@@ -22,14 +22,17 @@ jobs:
 
       - name: Create sample project
         run: |
-          pbiviz new SampleProject
+          mkdir SampleProject
           cd SampleProject
+          pbiviz new MyVisual
+          ls -la
+          cd MyVisual
           npm install
 
       - name: Bundle project dependencies
         run: |
-          cd SampleProject
-          tar -czf ../project-deps-bundle.tar.gz -C . node_modules package.json package-lock.json
+          cd SampleProject/MyVisual
+          tar -czf ../../project-deps-bundle.tar.gz -C . node_modules package.json package-lock.json
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
