@@ -24,14 +24,13 @@ jobs:
         run: |
           mkdir SampleProject
           cd SampleProject
-          pbiviz new MyVisual
-          ls -la
-          cd MyVisual
+          pbiviz new myVisual
+          cd myVisual
           npm install
 
       - name: Bundle project dependencies
         run: |
-          cd SampleProject/MyVisual
+          cd SampleProject/myVisual
           tar -czf ../../project-deps-bundle.tar.gz -C . node_modules package.json package-lock.json
 
       - name: Upload artifact
